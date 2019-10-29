@@ -15,6 +15,7 @@ import org.cyclopsgroup.jmxterm.SyntaxUtils;
 import org.cyclopsgroup.jmxterm.cc.CommandCenter;
 import org.cyclopsgroup.jmxterm.cc.ConsoleCompletor;
 import org.cyclopsgroup.jmxterm.io.CommandInput;
+import org.cyclopsgroup.jmxterm.io.CommandLineCommandInput;
 import org.cyclopsgroup.jmxterm.io.CommandOutput;
 import org.cyclopsgroup.jmxterm.io.FileCommandInput;
 import org.cyclopsgroup.jmxterm.io.FileCommandOutput;
@@ -96,11 +97,15 @@ public class CliMain {
           input = new JlineCommandInput(consoleReader, COMMAND_PROMPT);
         }
       } else {
-        File inputFile = new File(options.getInput());
-        if (!inputFile.isFile()) {
-          throw new FileNotFoundException("File " + inputFile + " is not a valid file");
-        }
-        input = new FileCommandInput(new File(options.getInput()));
+    	if (options.getInput().contentEquals(CliMainOptions.CMDLINE)) {
+    	  input = new CommandLineCommandInput(options.getCommand());	
+    	} else {
+          File inputFile = new File(options.getInput());
+          if (!inputFile.isFile()) {
+            throw new FileNotFoundException("File " + inputFile + " is not a valid file");
+          }
+          input = new FileCommandInput(new File(options.getInput()));
+    	}
       }
       try {
         CommandCenter commandCenter = new CommandCenter(output, input);

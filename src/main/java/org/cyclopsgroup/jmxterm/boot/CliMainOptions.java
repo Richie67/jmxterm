@@ -29,6 +29,10 @@ public class CliMainOptions {
    */
   public static final String STDOUT = "stdout";
 
+  
+  public static final String CMDLINE = "cmdline";
+  
+  
   private boolean exitOnFailure;
 
   private boolean help;
@@ -48,6 +52,8 @@ public class CliMainOptions {
   private String user;
 
   private String verboseLevel;
+  
+  private String command;
 
   private boolean isSecureRmiRegistry;
 
@@ -129,6 +135,14 @@ public class CliMainOptions {
     return isSecureRmiRegistry;
   }
 
+  /**
+   * 
+   * @return
+   */
+  public final String getCommand() {
+	  return command;
+  }
+  
   /**
    * @param exitOnFailure True if terminal exits on any failure
    */
@@ -232,4 +246,17 @@ public class CliMainOptions {
   public final void setSecureRmiRegistry(final boolean isSecureRmiRegistry) {
     this.isSecureRmiRegistry = isSecureRmiRegistry;
   }
+
+  /**
+   * 
+   * @param command
+   */
+  @Option(name = "c", longName = "command",
+		  description = "Execute given command or commands separated by TBD")
+  public final void setCommands(String command) {
+	  Validate.notNull(command, "command can't be null");
+	  this.input = "cmdline";
+	  this.command = command;
+  }
+  
 }
