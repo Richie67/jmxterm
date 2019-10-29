@@ -188,6 +188,7 @@ public class CommandCenter {
       return false;
     } catch (RuntimeException e) {
       session.output.printError(e);
+      e.printStackTrace();
       return false;
     }
   }

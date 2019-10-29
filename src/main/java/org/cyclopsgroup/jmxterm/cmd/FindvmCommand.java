@@ -26,15 +26,20 @@ public class FindvmCommand extends Command {
     Session session = getSession();
     int pid = -1;
     List<JavaProcess> processList = session.getProcessManager().list();
+    boolean done = false;
     for (JavaProcess p : processList) {
-        if (p.getDisplayName().equals(className)) {
+        if (p.getDisplayName().indexOf(className) >= 0) {
             pid = p.getProcessId();
             OpenCommand openCommand = new OpenCommand();
             openCommand.setUrl("" + pid);
+            openCommand.setSession(session);
             openCommand.execute();
-        } else {
-            throw new IllegalStateException("findvm does not succeed");
+            done = true;
+            break;
         }
+    }
+    if (!done) {
+        throw new IllegalStateException("command findvm did not succeed successfully");
     }
   }
 
