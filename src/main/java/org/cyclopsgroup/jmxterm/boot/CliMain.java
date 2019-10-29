@@ -112,9 +112,13 @@ public class CliMain {
                     done = true;    	            
     	        }
                 if (command.equals("jbf.cronlets")) {
-                    command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.de.jbfagree.cronlet, beans";
+                    command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.cronlet, beans";
                     done = true;                    
                 }    	 
+                if (command.equals("jbf.dbpools")) {
+                    command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.dbpools, beans";
+                    done = true;                    
+                }        
                 if (!done) {
                     throw new IllegalArgumentException("unknown short command");
                 }
