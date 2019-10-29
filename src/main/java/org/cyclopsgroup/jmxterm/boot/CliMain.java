@@ -63,6 +63,7 @@ public class CliMain {
     if (options.getVerboseLevel() != null) {
       verboseLevel = VerboseLevel.valueOf(options.getVerboseLevel().toUpperCase());
     } else {
+    
       verboseLevel = null;
     }
 
@@ -98,7 +99,15 @@ public class CliMain {
         }
       } else {
     	if (options.getInput().contentEquals(CliMainOptions.CMDLINE)) {
-    	  input = new CommandLineCommandInput(options.getCommand());	
+            // TODO remove quotes
+    	    String list[] = options.getCommand().split(",");
+    	    StringBuffer sb = new StringBuffer();
+    	    for (String s : list) {
+    	        sb.append(s);
+    	        sb.append(System.lineSeparator());
+    	    }
+    	System.lineSeparator();
+    	    input = new CommandLineCommandInput(sb.toString());	
     	} else {
           File inputFile = new File(options.getInput());
           if (!inputFile.isFile()) {
