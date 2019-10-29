@@ -100,9 +100,29 @@ public class CliMain {
       } else {
     	if (options.getInput().contentEquals(CliMainOptions.CMDLINE)) {
             // TODO remove quotes
-    	    String list[] = options.getCommand().split(",");
+    	    String command = options.getCommand();
+    	    if (command.startsWith("jbf.")) {
+    	        boolean done = false;
+    	        if (command.equals("jbf.subscribers")) {
+    	            command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.ACEMessaging.Subscribers, beans";
+    	            done = true;
+    	        }
+    	        if (command.equals("jbf.topics")) {
+                    command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.ACEMessaging.Topics, beans";
+                    done = true;    	            
+    	        }
+                if (command.equals("jbf.cronlets")) {
+                    command = "jvms, findvm org.apache.catalina.startup.Bootstrap, domain de.jbfagree.de.jbfagree.cronlet, beans";
+                    done = true;                    
+                }    	 
+                if (!done) {
+                    throw new IllegalArgumentException("unknown short command");
+                }
+    	    }
+    	    String list[] = command.split(",");
     	    StringBuffer sb = new StringBuffer();
     	    for (String s : list) {
+    	        s = s.trim();
     	        sb.append(s);
     	        sb.append(System.lineSeparator());
     	    }
